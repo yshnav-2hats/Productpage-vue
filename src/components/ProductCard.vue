@@ -1,18 +1,25 @@
 <script setup>
+defineProps({
+  product: {
+    type: Object,
+    required: true,
+  },
+})
 </script>
 
 <template>
   <article class="product-card">
     <div class="product-image">
       <img
-        src="https://placehold.co/400x400/f0eeee/333333?text=Product"
-        alt="Sample product"
+        :src="product.thumbnail"
+        :alt="product.title"
+        loading="lazy"
       />
 
       <button
         class="favorite-button"
         type="button"
-        aria-label="Add product to favourites"
+        aria-label="`Add ${product.title} to favourites`"
       >
         ♡
       </button>
@@ -21,18 +28,23 @@
     </div>
 
     <div class="product-info">
-      <h2>Super Serum Skin Mist SPF 40</h2>
+      <h2>{{ product.title }}</h2>
 
       <div class="product-rating">
-        <span class="stars" aria-label="5 out of 5 stars">
+        <span class="stars" aria-label="`${product.rating} out of 5 stars`">
           ★★★★★
         </span>
 
-        <span class="review-count">(230 reviews)</span>
+        <span class="review-count">({{product.reviews?.length ?? 0 }} reviews)</span>
       </div>
 
       <div class="product-bottom">
-        <p class="product-price">$40</p>
+        <p class="product-price">
+          {{ product.price.toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'USD'
+          }) }}
+        </p>
 
         <button class="add-to-cart" type="button">
           Add to Cart
@@ -75,6 +87,11 @@
   background: #fff;
   font-size: 23px;
   cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px soild #000;
+    outline-offset: 3px;
+  }
 }
 
 .product-badge {
@@ -101,6 +118,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .stars {
@@ -145,6 +163,22 @@
   &:focus-visible {
     outline: 2px solid #000;
     outline-offset: 3px;
+  }
+}
+
+@media (max-width: 600px) {
+  .product-info {
+    h2 {
+      font-size: 15px;
+    }
+  }
+
+  .product-price {
+    font-size: 22px
+  }
+
+  .add-to-cart {
+    padding: 8px 14px;
   }
 }
 </style>

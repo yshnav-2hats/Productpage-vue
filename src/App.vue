@@ -1,9 +1,10 @@
 <script setup>
-
+import { ref } from 'vue'
 import CollectionHeader from './components/CollectionHeader.vue'
 import ProductFilters from './components/ProductFilters.vue'
-import ProductCard from './components/ProductCard.vue'
+import ProductGrid from './components/ProductGrid.vue'
 
+const searchQuery = ref('')
 </script>
 
 <template>
@@ -11,10 +12,9 @@ import ProductCard from './components/ProductCard.vue'
     <section class="product-container">
       <CollectionHeader />
 
-      <ProductFilters />
-
-      <ProductCard />
-
+      <ProductFilters v-model:search-query="searchQuery" />
+      
+      <ProductGrid :search-query="searchQuery" />
     </section>
   </main>
 </template>
@@ -40,12 +40,12 @@ body {
 .product-page {
   width: 100%;
   min-height: 100vh;
-  padding: 48px 24px;
+  padding: 48px 40px;
 }
 
 .product-container {
   width: 100%;
-  max-width: 1100px;
+  max-width: none;
   margin: 0 auto;
   text-align: left;
 }

@@ -3,7 +3,15 @@ import { ref } from 'vue'
 
 const selectedCategory = ref('')
 const selectedFilter = ref('')
-const searchQuery = ref('')
+
+const props = defineProps({
+  searchQuery: {
+    type: String,
+    default: '',
+  },
+})
+
+const emit = defineEmits(['update:searchQuery'])
 </script>
 
 <template>
@@ -23,10 +31,11 @@ const searchQuery = ref('')
 
     <div class="search-field">
       <input
-        v-model="searchQuery"
+        :value="props.searchQuery"
+        @input="emit('update:searchQuery', $event.target.value)"
         type="search"
         placeholder="Search products..."
-        aria-label="Search products"
+        aria-label="Search products by name"
       />
 
       <button type="button" aria-label="Search">
