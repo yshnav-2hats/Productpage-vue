@@ -8,6 +8,14 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  category: {
+    type: String,
+    default: '',
+  },
+  sort: {
+    type: String,
+    default: '',
+  },
 })
 
 const { products, isLoading, error } = useProducts()
@@ -15,13 +23,24 @@ const { products, isLoading, error } = useProducts()
 const filteredProducts = computed(() => {
   const query = props.searchQuery.trim().toLowerCase()
 
-  if (!query) {
-    return products.value
+  const filtered = products.value.filter((product) => {
+    const matchesSearch = product.title.toLowerCase().includes(query)
+
+    const matchesCategory =
+      !props.category || product.category === props.category
+
+    return matchesSearch && matchesCategory
+  })
+
+  if (props.sort === 'low-price') {
+    return [...filtered].sort((a, b) => a.price - b.price)
   }
 
-  return products.value.filter((product) =>
-    product.title.toLowerCase().includes(query),
-  )
+  if (props.sort === 'high-price') {
+    return [...filtered].sort((a, b) => b.price - a.price)
+  }
+
+  return filtered
 })
 </script>
 

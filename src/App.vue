@@ -3,8 +3,13 @@ import { ref } from 'vue'
 import CollectionHeader from './components/CollectionHeader.vue'
 import ProductFilters from './components/ProductFilters.vue'
 import ProductGrid from './components/ProductGrid.vue'
+import { useProducts } from './composables/useProducts'
 
 const searchQuery = ref('')
+const selectedCategory = ref('')
+const selectedSort = ref('')
+
+const { categories } = useProducts()
 </script>
 
 <template>
@@ -12,9 +17,18 @@ const searchQuery = ref('')
     <section class="product-container">
       <CollectionHeader />
 
-      <ProductFilters v-model:search-query="searchQuery" />
-      
-      <ProductGrid :search-query="searchQuery" />
+      <ProductFilters
+        v-model:search-query="searchQuery"
+        v-model:category="selectedCategory"
+        v-model:sort="selectedSort"
+        :categories="categories"
+      />
+
+      <ProductGrid
+        :search-query="searchQuery"
+        :category="selectedCategory"
+        :sort="selectedSort"
+      />
     </section>
   </main>
 </template>

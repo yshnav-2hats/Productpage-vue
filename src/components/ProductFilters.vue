@@ -1,26 +1,67 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch, onUnmounted } from 'vue'
 
-const selectedCategory = ref('')
-const selectedFilter = ref('')
+const selectedCategory = defineModel('category', {
+  type: String,
+  default: '',
+})
+
+const selectedFilter = defineModel('sort', {
+  type: String,
+  default: '',
+})
 
 const props = defineProps({
   searchQuery: {
     type: String,
     default: '',
   },
+  categories: {
+    type: Array,
+    default: () => [],
+  },
 })
 
 const emit = defineEmits(['update:searchQuery'])
+
+const searchInput = ref(props.searchQuery)
+
+let debounceTimer
+
+watch(searchInput, (newValue) => {
+  clearTimeout(debounceTimer)
+
+  debounceTimer = setTimeout(() => {
+    emit('update:searchQuery', newValue)
+  }, 300)
+})
+
+watch(
+  () => props.searchQuery,
+  (newValue) => {
+    if (newValue !== searchInput.value) {
+      searchInput.value = newValue
+    }
+  },
+)
+
+onUnmounted(() => {
+  clearTimeout(debounceTimer)
+})
 </script>
 
 <template>
   <section class="product-filters" aria-label="Product filters">
     <select v-model="selectedCategory" aria-label="Filter by category">
-      <option value="">Select Categories</option>
-      <option value="beauty">Beauty</option>
-      <option value="fragrances">Fragrances</option>
-      <option value="groceries">Groceries</option>
+      <option value="">All Categories</option>
+
+      <option
+        v-for="category in categories"
+        :key="category"
+        :value="category"
+      >
+        {{ category }}
+      </option>
     </select>
 
     <select v-model="selectedFilter" aria-label="Additional product filter">
@@ -31,8 +72,7 @@ const emit = defineEmits(['update:searchQuery'])
 
     <div class="search-field">
       <input
-        :value="props.searchQuery"
-        @input="emit('update:searchQuery', $event.target.value)"
+        v-model="searchInput"
         type="search"
         placeholder="Search products..."
         aria-label="Search products by name"
@@ -96,11 +136,6 @@ const emit = defineEmits(['update:searchQuery'])
     outline: none;
     background: transparent;
     font-size: 14px;
-
-    &:focus-visible {
-      outline: 2px solid #777;
-      outline-offset: 2px;
-    }
   }
 
   button {
