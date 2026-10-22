@@ -10,18 +10,34 @@ defineProps({
 <template>
   <article class="product-card">
     <div class="product-image">
-      <img
-        :src="product.thumbnail"
-        :alt="product.title"
-        loading="lazy"
-      />
+      <picture>
+        <source :srcset="product.thumbnail" type="image/webp" />
+        <img
+          :src="product.thumbnail"
+          :alt="product.title"
+          loading="lazy"
+        />
+      </picture>
 
       <button
         class="favorite-button"
         type="button"
-        aria-label="`Add ${product.title} to favourites`"
+        :aria-label="`Add ${product.title} to favourites`"
       >
-        ♡
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+        </svg>
       </button>
 
       <span class="product-badge">Featured</span>
@@ -31,11 +47,11 @@ defineProps({
       <h2>{{ product.title }}</h2>
 
       <div class="product-rating">
-        <span class="stars" aria-label="`${product.rating} out of 5 stars`">
+        <span class="stars" :aria-label="`${product.rating} out of 5 stars`">
           ★★★★★
         </span>
 
-        <span class="review-count">({{product.reviews?.length ?? 0 }} reviews)</span>
+        <span class="review-count">({{ product.reviews?.length ?? 0 }} reviews)</span>
       </div>
 
       <div class="product-bottom">
@@ -66,6 +82,12 @@ defineProps({
   border-radius: 24px;
   background: #f0eeee;
 
+  picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
   img {
     display: block;
     width: 100%;
@@ -85,11 +107,10 @@ defineProps({
   border: none;
   border-radius: 50%;
   background: #fff;
-  font-size: 23px;
   cursor: pointer;
 
   &:focus-visible {
-    outline: 2px soild #000;
+    outline: 2px solid #000;
     outline-offset: 3px;
   }
 }
@@ -174,7 +195,7 @@ defineProps({
   }
 
   .product-price {
-    font-size: 22px
+    font-size: 22px;
   }
 
   .add-to-cart {

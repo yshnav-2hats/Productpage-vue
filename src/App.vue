@@ -14,22 +14,26 @@ const { categories } = useProducts()
 
 <template>
   <main class="product-page">
-    <section class="product-container">
+    <div class="header-container">
       <CollectionHeader />
+    </div>
 
+    <div class="filters-container">
       <ProductFilters
         v-model:search-query="searchQuery"
         v-model:category="selectedCategory"
         v-model:sort="selectedSort"
         :categories="categories"
       />
+    </div>
 
+    <div class="products-container">
       <ProductGrid
         :search-query="searchQuery"
         :category="selectedCategory"
         :sort="selectedSort"
       />
-    </section>
+    </div>
   </main>
 </template>
 
@@ -54,13 +58,36 @@ body {
 .product-page {
   width: 100%;
   min-height: 100vh;
-  padding: 48px 40px;
+  padding: 40px 0;
 }
 
-.product-container {
-  width: 100%;
-  max-width: none;
-  margin: 0 auto;
-  text-align: left;
+.header-container,
+.filters-container,
+.products-container {
+  width: 86%;
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header-container {
+  margin-bottom: 32px;
+}
+
+.filters-container {
+  margin-bottom: 44px;
+}
+
+@media (max-width: 768px) {
+  .header-container,
+  .filters-container,
+  .products-container {
+    width: calc(100% - 40px);
+  }
+
+  .header-container,
+  .filters-container {
+    margin-bottom: 28px;
+  }
 }
 </style>

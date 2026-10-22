@@ -1,102 +1,86 @@
-<script setup>
-</script>
-
 <template>
-    <section class="collection-header">
-        <div class="collection-title">
-            <p class="collection-label">Collection</p>
-            <h1>Our products</h1>
-        </div>
+  <header class="collection-header">
+    <p class="collection-label">Collection</p>
 
-        <div class="collection-tabs">
-            <button class="collection-tab active">
-                Featured
-            </button>
+    <div class="collection-main">
+      <h1>Our products</h1>
 
-            <button class="collection-tab">
-                Best Seller
-            </button>
-
-            <button class="collection-tab">
-                New Arrival
-            </button>
-        </div>
-    </section>
+      <nav class="collection-tabs" aria-label="Product collections">
+        <button class="active" type="button">Featured</button>
+        <button type="button">Best Seller</button>
+        <button type="button">New Arrival</button>
+      </nav>
+    </div>
+  </header>
 </template>
 
 <style lang="scss" scoped>
 .collection-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 24px;
-    margin-bottom: 32px;
+  width: 100%;
+  font-family: 'Jost', Arial, Helvetica, sans-serif;
 }
 
-.collection-title {
-    .collection-label {
-        margin-bottom: 4px;
-        font-size: 14px;
-        font-weight: 500;
-    }
+.collection-label {
+  margin: 0 0 2px -1.2%;
+  font-size: 14px;
+  line-height: 1.2;
+}
 
-    h1 {
-        margin: 0;
-        font-size: 48px;
-        font-weight: 600;
-        line-height: 1.2;
-    }
+.collection-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding-left: 8%;
+}
+
+.collection-main h1 {
+  margin: 0;
+  font-size: clamp(36px, 4.5vw, 80px);
+  font-weight: 400;
+  line-height: 1.1;
 }
 
 .collection-tabs {
-    display: flex;
-    gap: 12px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
 }
 
-.collection-tab {
-    min-width: 130px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 24px;
-    background: #f5f5f5;
-    color: #111;
-    font-size: 13px;
-    cursor: pointer;
-    transition: background 0.2s ease;
+.collection-tabs button {
+  min-width: 124px;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 999px;
+  background: #f1f1f1;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
 
-    &.active {
-        background: #000;
-        color: #fff;
-    }
-
-    &:hover {
-        background: #ddd;
-    }
-
-    &.active:hover {
-        background: #222;
-    }
+.collection-tabs button.active {
+  background: #000;
+  color: #fff;
 }
 
 @media (max-width: 768px) {
-    .collection-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+  .collection-label {
+    margin-left: 0;
+  }
 
-    .collection-title h1 {
-        font-size: 36px;
-    }
+  .collection-main {
+    width: 100%;
+    align-items: flex-start;
+    flex-direction: column;
+    padding-left: 0;
+  }
 
-    .collection-tabs {
-        width: 100%;
-        gap: 8px;
-    }
+  .collection-main h1 {
+    font-size: 36px;
+  }
 
-    .collection-tab {
-        flex: 1;
-        min-width: 0;
-        padding: 10px 8px;
-    }
+  .collection-tabs {
+    flex-wrap: wrap;
+  }
 }
 </style>
